@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#dc2626">
+  <title>Okiki's Friendship Application 😂</title>
+  <style>
+    :root{--pink:#dc2626;--deep:#991b1b;--pale:#fef2f2;--ink:#4c1d1d}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:radial-gradient(circle at 15% 15%,#fff 0 3px,transparent 4px),linear-gradient(135deg,#fee2e2,#fca5a5 45%,#fff1f2);background-size:35px 35px,auto;display:grid;place-items:center;padding:22px;overflow-x:hidden}
+    .float{position:fixed;pointer-events:none;opacity:.55;animation:float 7s ease-in-out infinite;font-size:25px;z-index:0}
+    .f1{top:8%;left:8%}.f2{top:18%;right:9%;animation-delay:1s}.f3{bottom:12%;left:12%;animation-delay:2s}.f4{bottom:9%;right:12%;animation-delay:3s}
+    @keyframes float{50%{transform:translateY(-22px) rotate(12deg)}}
+    .card{position:relative;z-index:1;width:min(100%,520px);background:rgba(255,255,255,.88);border:2px solid #fff;border-radius:30px;padding:clamp(25px,6vw,44px);text-align:center;box-shadow:0 22px 65px #991b1b40;backdrop-filter:blur(10px);animation:pop .65s cubic-bezier(.2,.8,.2,1)}
+    @keyframes pop{from{opacity:0;transform:translateY(25px) scale(.96)}to{opacity:1;transform:none}}
+    .sparkle{font-size:36px;margin-bottom:8px}
+    h1{font-size:clamp(2rem,8vw,3rem);line-height:1.08;margin:8px 0 14px;font-weight:900;color:#991b1b;letter-spacing:-1.4px}
+    h2{font-size:clamp(1.45rem,6vw,2rem);line-height:1.2;color:#991b1b;margin:8px 0 14px}
+    p{font-size:1.06rem;line-height:1.65;margin:10px 0 20px}
+    .small{font-size:.9rem;color:#7f1d1d}
+    input{width:100%;padding:16px 18px;border:2px solid #fca5a5;border-radius:16px;background:#fffafa;font:700 1rem Arial,Helvetica,sans-serif;color:var(--ink);outline:none;transition:.25s}
+    input:focus{border-color:var(--pink);box-shadow:0 0 0 4px #dc262626}
+    button{border:0;border-radius:16px;padding:14px 22px;font:900 1rem Arial,Helvetica,sans-serif;cursor:pointer;transition:transform .2s,box-shadow .2s,filter .2s;touch-action:manipulation}
+    button:hover{transform:translateY(-3px);filter:brightness(1.04)}
+    button:active{transform:scale(.97)}
+    .primary{width:100%;margin-top:14px;color:white;background:linear-gradient(135deg,#ef4444,#991b1b);box-shadow:0 8px 18px #d9233f45}
+    .yes{color:#fff;background:linear-gradient(135deg,#55df8b,#18ad62);box-shadow:0 9px 22px #20b86a55;font-size:1.2rem;padding:17px 35px}
+    .no{color:white;background:linear-gradient(135deg,#f87171,#b91c1c);box-shadow:0 8px 18px #b91c1c45;position:absolute;left:58%;top:68%;z-index:3}
+    .choice-area{height:150px;position:relative;margin-top:12px}
+    .yes-wrap{position:absolute;left:8%;top:24%}
+    .message{min-height:30px;color:#991b1b;font-weight:900;margin-top:8px}
+    .hidden{display:none!important}
+    .loader{width:58px;height:58px;border:6px solid #fee2e2;border-top-color:#991b1b;border-radius:50%;margin:22px auto;animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .fee{background:#fef2f2;border:2px dashed #ef4444;border-radius:20px;padding:16px;margin:18px 0}
+    .fee strong{display:block;font-size:1.4rem;color:#991b1b}
+    .actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .pay{background:linear-gradient(135deg,#ffb347,#ff7c42);color:white;box-shadow:0 8px 18px #ff984455}
+    .refuse{background:#fee2e2;color:#991b1b}
+    .result-emoji{font-size:55px;animation:bounce 1s infinite alternate}
+    @keyframes bounce{to{transform:translateY(-12px) rotate(5deg)}}
+    .shake{animation:shake .35s}
+    @keyframes shake{25%{transform:translateX(-5px)}50%{transform:translateX(5px)}75%{transform:translateX(-4px)}}
+    .confetti{position:fixed;top:-20px;width:10px;height:15px;z-index:5;pointer-events:none;animation:fall linear forwards}
+    @keyframes fall{to{transform:translateY(110vh) rotate(760deg);opacity:.9}}
+    .try{margin-top:22px;background:#fff;color:#991b1b;border:2px solid #fca5a5}
+    @media(max-width:420px){body{padding:14px}.card{border-radius:24px;padding:25px 20px}.choice-area{height:170px}.yes-wrap{left:2%;top:25%}.no{left:58%;top:68%}.actions button{width:100%}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <span class="float f1">💗</span><span class="float f2">✨</span><span class="float f3">🌸</span><span class="float f4">💕</span>
+  <main class="card" id="app">
+    <section id="page1">
+      <div class="sparkle">🎀✨</div>
+      <h1>Hi! I'm Okiki 👋</h1>
+      <p>What's your name? Don't lie o, I go know 😂</p>
+      <input id="nameInput" type="text" maxlength="24" placeholder="Type your fine name here..." autocomplete="given-name">
+      <button class="primary" id="continueBtn">Continue 💗</button>
+      <p class="small">Powered by vibes, friendship & small mischief.</p>
+    </section>
+
+    <section id="page2" class="hidden">
+      <div class="sparkle">🥹💞</div>
+      <h2 id="friendQuestion">Do you want to be friends with Okiki?</h2>
+      <p>Think well o. This friendship comes with premium enjoyment 😂</p>
+      <div class="choice-area" id="choiceArea">
+        <div class="yes-wrap"><button class="yes" id="yesFriend">YES! 💚</button></div>
+        <button class="no" id="noFriend">NO 😒</button>
+      </div>
+      <div class="message" id="noMessage" aria-live="polite"></div>
+    </section>
+
+    <section id="loadingPage" class="hidden">
+      <div class="sparkle">🧐</div>
+      <h2>One moment...</h2>
+      <p>Checking if you are stingy... 🤔</p>
+      <div class="loader"></div>
+      <p class="small">Our friendship department is doing calculations.</p>
+    </section>
+
+    <section id="page3" class="hidden">
+      <div class="sparkle">💸🧾</div>
+      <h2>Important Friendship Notice!</h2>
+      <p id="feeText">To be Okiki's friend, you MUST PAY! 💸</p>
+      <div class="fee"><strong>Friendship fee: ₦5,000,000</strong>No discount, no credit, no "I go pay later" 😂</div>
+      <p class="small">Relax 😂 This is a prank. No real payment is collected.</p>
+      <div class="actions">
+        <button class="pay" id="payBtn">I WILL PAY 💰</button>
+        <button class="refuse" id="refuseBtn">I NO GO PAY 🙄</button>
+      </div>
+    </section>
+
+    <section id="page4yes" class="hidden">
+      <div class="result-emoji">🎉🥳💖</div>
+      <h1>Friendship Approved!</h1>
+      <p id="successText"></p>
+      <p class="small">Your payment status: vibes only. Your account balance is safe 😂</p>
+      <button class="try" onclick="restart()">Try Again 🔁</button>
+    </section>
+
+    <section id="page4no" class="hidden">
+      <div class="result-emoji">😭💔</div>
+      <h1 style="font-size:clamp(1.8rem,7vw,2.5rem)">OYA YOU GO BE MUMU FOR HERE! 😭😂</h1>
+      <p id="rejectText"></p>
+      <p class="small">No money was collected. Okiki is just catching cruise 😂</p>
+      <button class="try" onclick="restart()">Try Again 🔁</button>
+    </section>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    let theirName = "My friend";
+    const pages = ["page1","page2","loadingPage","page3","page4yes","page4no"];
+
+    function showPage(id){
+      pages.forEach(page => $(page).classList.toggle("hidden", page !== id));
+      $("app").classList.remove("shake");
+      void $("app").offsetWidth;
+      $("app").style.animation = "none";
+      void $("app").offsetWidth;
+      $("app").style.animation = "";
+    }
+
+    $("continueBtn").addEventListener("click", () => {
+      const value = $("nameInput").value.trim();
+      if(!value){
+        $("nameInput").focus();
+        $("app").classList.remove("shake");
+        void $("app").offsetWidth;
+        $("app").classList.add("shake");
+        $("nameInput").placeholder = "Abeg enter your name first 😂";
+        return;
+      }
+      theirName = value.replace(/[<>]/g, "");
+      $("friendQuestion").textContent = `${theirName}, do you want to be friends with Okiki?`;
+      showPage("page2");
+    });
+
+    $("nameInput").addEventListener("keydown", e => {
+      if(e.key === "Enter") $("continueBtn").click();
+    });
+
+    const noButton = $("noFriend");
+    const funnyLines = [
+      "You no fit catch am! 😂",
+      "Try again mumu 😭",
+      "This NO button get leg o! 🏃",
+      "Leave am, just click YES na 😂",
+      "Your finger no reach here! 🤣",
+      "NO has travelled to another state. 🚗"
+    ];
+    let attempts = 0;
+
+    function dodgeNo(e){
+      if(e) e.preventDefault();
+      const area = $("choiceArea");
+      const maxX = Math.max(0, area.clientWidth - noButton.offsetWidth);
+      const maxY = Math.max(0, area.clientHeight - noButton.offsetHeight);
+      noButton.style.position = "absolute";
+      noButton.style.left = Math.random() * maxX + "px";
+      noButton.style.top = Math.random() * maxY + "px";
+      noButton.classList.remove("shake");
+      void noButton.offsetWidth;
+      noButton.classList.add("shake");
+      $("noMessage").textContent = funnyLines[attempts % funnyLines.length];
+      attempts++;
+    }
+    noButton.addEventListener("pointerenter", dodgeNo);
+    noButton.addEventListener("pointerdown", dodgeNo);
+    noButton.addEventListener("click", dodgeNo);
+    noButton.addEventListener("focus", dodgeNo);
+
+    $("yesFriend").addEventListener("click", () => {
+      alert("God save you! You suppose click NO na 😂😭");
+      showPage("loadingPage");
+      setTimeout(() => showPage("page3"), 2000);
+    });
+
+    $("payBtn").addEventListener("click", () => {
+      $("successText").textContent = `Sharp! ${theirName}, you be nepo baby ooo! 😂💸 You go pay ₦5 million! No story! You are now Okiki's OFFICIAL friend! 🎉💖`;
+      showPage("page4yes");
+      makeConfetti();
+    });
+
+    $("refuseBtn").addEventListener("click", () => {
+      $("rejectText").textContent = `${theirName}, you no want pay Okiki? You too stingy! Common for here abeg, go and sit down! Even ₦5 million you no fit pay? 😭💔`;
+      showPage("page4no");
+    });
+
+    function makeConfetti(){
+      const colors = ["#dc2626","#ffc857","#70df9a","#9d8cff","#ff8c70","#65c8ed"];
+      for(let i=0;i<95;i++){
+        const piece = document.createElement("i");
+        piece.className = "confetti";
+        piece.style.left = Math.random()*100+"vw";
+        piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+        piece.style.borderRadius = Math.random()>.5 ? "50%" : "2px";
+        piece.style.animationDuration = (2.5+Math.random()*3)+"s";
+        piece.style.animationDelay = Math.random()*1.2+"s";
+        document.body.appendChild(piece);
+        setTimeout(()=>piece.remove(),6500);
+      }
+    }
+
+    function restart(){
+      theirName = "My friend";
+      attempts = 0;
+      $("nameInput").value = "";
+      $("noMessage").textContent = "";
+      noButton.style.left = "58%";
+      noButton.style.top = "68%";
+      showPage("page1");
+    }
+  </script>
+</body>
+</html>
